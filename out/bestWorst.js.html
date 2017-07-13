@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: bestWorst.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: bestWorst.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+var constants = require('../lib/constants.js');
+var framework = require('eze-e2e-webframework');
+var bestWorst = require('../pageObjects/Controls/bestWorst_control.js');
+var bestWorstSettings = require('../pageObjects/Controls/bestWorst_settings_control.js');
+
+module.exports = {
+
+    /** 
+     * Add a Best/Worst widget to an Analytics workroom.
+     * 
+     * @param {int} bestWorstWidgetId - identifier of the widget.
+    */
+    addAnalyticsBestWorstWidget: function(bestWorstWidgetId) {
+        framework.utils.dismissAllNotificationsIfAny();
+        framework.dashboard.addWidget(constants.AnalyticsProductName, constants.BestWorst);
+        bestWorst.checkIfBestWorstLoaded(bestWorstWidgetId);
+    },
+
+    /** 
+     * Change title with a given input string.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} newTitle - new title name to replace existing title.
+     */
+    changeTitle: function(bestWorstWidgetId, newTitle) {
+        bestWorstSettings.changeTitleField(newTitle);
+    },
+
+    /** 
+     * Change best/worst to show best or worst values, based on input.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} option - "Best" or "Worst" options to select.
+     */
+    selectBestWorstOption: function(bestWorstWidgetId, option) {
+        bestWorstSettings.clickBestWorstOptionButton(option);
+    },
+
+    /** 
+     * Add additional columns to best/worst widget, based on input array.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string[]} additionalColumnInput - array of additional columns to select.
+     */
+    addAdditionalColumns: function(bestWorstWidgetId, additionalColumnInput) {
+        bestWorstSettings.addAdditionalColumns(additionalColumnInput);
+    },
+
+    /** 
+     * Change best/worst column, based on input.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} bestWorstColumn - identifies which column option to choose.
+     */
+    changeBestWorstColumn: function(bestWorstWidgetId, bestWorstColumn) {
+        bestWorstSettings.changeBestWorstColumn(bestWorstColumn);
+    },
+
+    /** 
+     * Change front-end portfolio field with a given array of inputs.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string[]} portfolioInput - Array of Portfolios to filter on.
+     */
+    changeFrontEndPortfolio: function(bestWorstWidgetId, portfolioInput) {
+        bestWorst.changeFrontEndPortfolioField(bestWorstWidgetId, portfolioInput);
+        bestWorst.checkIfBestWorstLoaded(bestWorstWidgetId);
+        bestWorst.checkIfBestWorstInDescendingOrder(bestWorstWidgetId);
+    },
+
+    /** 
+     * Change widget settings portfolio field with a given array of inputs.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string[]} portfolioInput - Array of Portfolios to filter on.
+     */
+    changeWidgetSettingsPortfolio: function(bestWorstWidgetId, portfolioInput) {
+        bestWorstSettings.changeWidgetSettingsPortfolioField(portfolioInput);
+    },
+
+    /** 
+     * Change widget settings view configuration field with a given input.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} viewConfigurationInput - view configuration to select.
+     */
+    changeViewConfiguration: function(bestWorstWidgetId, viewConfigurationInput) {
+        bestWorstSettings.changeViewConfigurationField(viewConfigurationInput);
+    },
+
+    /** 
+     * Change included position states field with a given position state.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} positionStateInput - position state input to select.
+     */
+    changeIncludedPositionStates: function(bestWorstWidgetId, positionStateInput) {
+        bestWorstSettings.changeIncludedPositionStatesField(positionStateInput);
+    },
+
+    /** 
+     * Change flexible basis column field with a given input column name.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} flexibleBasisInput - flexible basis column to select.
+     */
+    changeFlexibleBasisColumn: function(bestWorstWidgetId, flexibleBasisInput) {
+        bestWorstSettings.changeFlexibleBasisColumnField(flexibleBasisInput);
+    },
+
+    /** 
+     * Clicks "Include Only Selected Portfolios in the Aggregate Basis" checkbox based on desired selection value.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {boolean} includeSelectedPortfolioForAggregateBasis - whether or not to have checkbox checked/unchecked.
+     */
+    clickIncludeSelectedPortfolioForAggregateBasisCheckbox: function(bestWorstWidgetId, includeSelectedPortfolioForAggregateBasis) {
+        bestWorstSettings.clickIncludeSelectedPortfolioForAggregateBasisField(includeSelectedPortfolioForAggregateBasis);
+    },
+
+    /** 
+     * Clicks "Include Closed Positions" checkbox based on desired selection value.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {boolean} includeClosedPositions - whether or not to have checkbox checked/unchecked.
+     */
+    clickIncludeClosedPositionsCheckbox: function(bestWorstWidgetId, includeClosedPositions) {
+        bestWorstSettings.clickIncludeClosedPositionsField(includeClosedPositions);
+    },
+
+    /** 
+     * Change pre aggregation filter field with a given input selection.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} preAggregationInput - dropdown option to select.
+     */
+    changePreAggregationFilter: function(bestWorstWidgetId, preAggregationInput) {
+        bestWorstSettings.changePreAggregationField(preAggregationInput);
+    },
+
+    /** 
+     * Clicks "Include Cash Positions" checkbox based on desired selection value.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {boolean} includeCashPositions - whether or not to have checkbox checked/unchecked.
+     */
+    clickIncludeCashPositionsCheckbox: function(bestWorstWidgetId, includeCashPositions) {
+        bestWorstSettings.clickIncludeCashPositionsField(includeCashPositions);
+    },
+
+    /** 
+     * Open widget settings of a given analytics best worst.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     */
+    openWidgetSettings: function(bestWorstWidgetId) {
+        bestWorst.clickWidgetSettingsButton(bestWorstWidgetId);
+    },
+
+    /** 
+     * Apply widget settings of a given analytics best worst, when settings window is open.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     */
+    applyWidgetSettings: function(bestWorstWidgetId) {
+        bestWorstSettings.clickApplyButton();
+        bestWorst.checkIfBestWorstLoaded(bestWorstWidgetId);
+    },
+
+    /** 
+     * Click apply button on widget settings window and reload best worst in order.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     */
+    applyWidgetSettingsAndReloadInDescendingOrder: function(bestWorstWidgetId) {
+        bestWorstSettings.clickApplyButton();
+        bestWorst.checkIfBestWorstLoaded(bestWorstWidgetId);
+        bestWorst.checkIfBestWorstInDescendingOrder(bestWorstWidgetId);
+    },
+
+    /** 
+     * Click apply button on widget settings window and reload best worst in reverse order.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     */
+    applyWidgetSettingsAndReloadInAscendingOrder: function(bestWorstWidgetId) {
+        bestWorstSettings.clickApplyButton();
+        bestWorst.checkIfBestWorstLoaded(bestWorstWidgetId);
+        bestWorst.checkIfBestWorstInAscendingOrder(bestWorstWidgetId);
+    },
+
+    /**
+     *   Return name of analytics best worst title.
+     * 
+     *   @param {int} bestWorstWidgetId - the identifier of the widget.
+     *   @return {string} best worst title returned.
+     */
+    getTitle: function(bestWorstWidgetId) {
+        return bestWorst.getBestWorstTitle(bestWorstWidgetId);
+    },
+
+    /** 
+     * Get all header values from best/worst widget.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @return {string[]} array of best/worst header values.
+     */
+    getAnalyticsBestWorstHeaders: function(bestWorstWidgetId) {
+        return bestWorst.getAnalyticsBestWorstHeaderValues(bestWorstWidgetId);
+    },
+
+    /** 
+     * Get all values from best/worst widget.
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @return {string[]} array of best/worst values.
+     */
+    getAnalyticsBestWorstValues: function(bestWorstWidgetId) {
+        return bestWorst.getAnalyticsBestWorstValues(bestWorstWidgetId);
+    },
+
+    /** 
+     * Verify the best/worst widget is not empty
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     */
+    verifyBestWorstNotEmpty: function(bestWorstWidgetId) {
+        expect(this.getAnalyticsBestWorstValues(bestWorstWidgetId).count()).toBeGreaterThan(0);
+    },
+
+    /** 
+     * Verify the best/worst column that was selected is the first column after symbol
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} columnName - name of the column that is selected to be the best/worst column.
+     */
+    verifyBestWorstColumn: function(bestWorstWidgetId, columnName) {
+       this.getAnalyticsBestWorstHeaders(0)
+                .then((changedHeaders)=>{
+                    expect(changedHeaders[1]).toEqual(columnName);
+            });
+    },
+
+    /** 
+     * Verify the best/worsts values are in descending order by best/worst column
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     */
+    verifyBestWorstInDescendingOrder: function(bestWorstWidgetId) {
+        bestWorst.checkIfBestWorstInDescendingOrder(bestWorstWidgetId);
+    },
+
+    /** 
+     * Check that a best worst has a certain portfolio filter
+     * 
+     * @param {int} bestWorstWidgetId - the identifier of the widget.
+     * @param {string} selectedPort - portfolio you expected to be filtered on.
+     */
+    verifyPortfolioFilter: function(bestWorstWidgetId, selectedPort) {
+        var dropdown = element.all(By.id("multiSelectPortfolio_taglist")).last();
+        var port = dropdown.element(By.css("span[unselectable = 'on']"));
+        port.getText()
+        .then((text)=>{
+            console.log("The Portfolio filter is " + text);
+            expect(text).toBe(selectedPort);   
+        });  
+    },
+
+    /** 
+     * Check that best worst widget settings are the correct configuration based on input settings
+     * 
+     * @param {object} widgetSettings - object of widget settings that should be configured against.
+     */
+    verifyBestWorstWidgetSettings: function(widgetSettings) {
+        bestWorstSettings.verifyBestWorstWidgetSettings(widgetSettings);
+    }
+          
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="analyticsGrid.html">analyticsGrid</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.1</a> on Thu Jul 13 2017 14:43:51 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

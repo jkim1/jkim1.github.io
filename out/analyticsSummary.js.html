@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: analyticsSummary.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: analyticsSummary.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+var constants = require('../lib/constants.js');
+var framework = require('eze-e2e-webframework');
+var analyticsSummary = require('../pageObjects/Controls/analyticsSummary_control.js');
+var analyticsSummarySettings = require('../pageObjects/Controls/analyticsSummary_settings_control.js');
+
+module.exports = {
+
+    /** 
+     * Add an Analytics Summary widget to an Analytics workroom.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+    */
+    addAnalyticsSummaryWidget: function(analyticsSummaryWidgetId) {
+        framework.utils.dismissAllNotificationsIfAny();
+        framework.dashboard.addWidget(constants.AnalyticsProductName, constants.AnalyticsSummary);
+        analyticsSummary.checkIfSummaryLoaded(analyticsSummaryWidgetId);
+    },
+
+    /** 
+     * Change title with a given input string.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string} newTitle - new title name to replace existing title.
+     */
+    changeTitle: function(analyticsSummaryWidgetId, newTitle) {
+        analyticsSummarySettings.changeTitleField(newTitle);
+    },
+
+     /** 
+     * Change portfolio field with a given array of inputs.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string[]} portInput - Array of Portfolios to filter on.
+     */
+    changeWidgetSettingsPortfolio: function(analyticsSummaryWidgetId, portfolioInput) {
+        analyticsSummarySettings.changeWidgetSettingsPortfolioField(portfolioInput);
+    },
+
+    /** 
+     * Change widget settings view configuration with a given input.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string} viewConfigurationInput - view configuration to select.
+     */
+    changeViewConfiguration: function(analyticsSummaryWidgetId, viewConfigurationInput) {
+        analyticsSummarySettings.changeViewConfigurationField(viewConfigurationInput);
+    },
+
+    /** 
+     * Change included position states field with a given position state.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string} positionStateInput - position state input to select.
+     */
+    changeIncludedPositionStates: function(analyticsSummaryWidgetId, positionStateInput) {
+        analyticsSummarySettings.changeIncludedPositionStatesField(positionStateInput);
+    },
+
+    /** 
+     * Change flexible basis column field with a given input column name.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string} flexibleBasisInput - flexible basis column to select.
+     */
+    changeFlexibleBasisColumn: function(analyticsSummaryWidgetId, flexibleBasisInput) {
+        analyticsSummarySettings.changeFlexibleBasisColumnField(flexibleBasisInput);
+    },
+
+    /** 
+     * Clicks "Include Closed Positions" checkbox based on desired selection value.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {boolean} includeClosedPositions - whether or not to have checkbox checked/unchecked.
+     */
+    clickIncludeClosedPositionsCheckbox: function(analyticsSummaryWidgetId, includeClosedPositions) {
+        analyticsSummarySettings.clickIncludeClosedPositionsField(includeClosedPositions);
+    },
+
+    /** 
+     * Change pre aggregation filter field with a given input selection.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string} preAggregationInput - dropdown option to select.
+     */
+    changePreAggregationFilter: function(analyticsSummaryWidgetId, preAggregationInput) {
+        analyticsSummarySettings.changePreAggregationField(preAggregationInput);
+    },
+
+    /** 
+     * Clicks "Include Only Selected Portfolios in the Aggregate Basis" checkbox based on desired selection value.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {boolean} includeSelectedPortfolioForAggregateBasis - whether or not to have checkbox checked/unchecked.
+     */
+    clickIncludeSelectedPortfolioForAggregateBasisCheckbox: function(analyticsSummaryWidgetId, includeSelectedPortfolioForAggregateBasis) {
+        analyticsSummarySettings.clickIncludeSelectedPortfolioForAggregateBasisField(includeSelectedPortfolioForAggregateBasis);
+    },
+
+    /** 
+     * Clicks "Include Cash Positions" checkbox based on desired selection value.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {boolean} includeCashPositions - whether or not to have checkbox checked/unchecked.
+     */
+    clickIncludeCashPositionsCheckbox: function(analyticsSummaryWidgetId, includeCashPositions) {
+        analyticsSummarySettings.clickIncludeCashPositionsField(includeCashPositions);
+    },
+
+    /** 
+     * Change widget layout labels with values from a given input array.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string[]} summaryLabelInput - array of new label values.
+     */
+    changeWidgetLayoutLabels: function(analyticsSummaryWidgetId, summaryLabelInput) {
+        analyticsSummarySettings.changeSummaryWidgetLayoutLabels(summaryLabelInput);
+    },
+
+    /** 
+     * Change specific widget layout label with input value.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string} summaryLabelInput - new label value.
+     * @param {int} index - label index specifying which label input to change.
+     */
+    changeWidgetLayoutLabelByIndex: function(analyticsSummaryWidgetId, summaryLabelInput, index) {
+        analyticsSummarySettings.changeSummaryWidgetLayoutLabelByIndex(summaryLabelInput, index);
+    },
+
+    /** 
+     * Change widget layout column value dropdowns with values from a given input array.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string[]} summaryColumnInput - array of new column values to be selected.
+     */
+    changeSummaryWidgetLayoutColumnValues: function(analyticsSummaryWidgetId, summaryColumnInput) {
+        analyticsSummarySettings.changeSummaryWidgetLayoutColumnValues(summaryColumnInput);
+    },
+
+    /** 
+     * Change specific widget layout column dropdown with input value.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * @param {string} summaryColumnInput - new column value.
+     * @param {int} index - dropdown index specifying which dropdown to change.
+     */
+    changeSummaryWidgetLayoutColumnValueByIndex: function(analyticsSummaryWidgetId, summaryColumnInput, index) {
+        analyticsSummarySettings.changeSummaryWidgetLayoutColumnValueByIndex(summaryColumnInput, index);
+    },
+
+    /** 
+     * Open widget settings of a given analytics summary.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     */
+    openWidgetSettings: function(analyticsSummaryWidgetId) {
+        analyticsSummary.clickWidgetSettingsButton(analyticsSummaryWidgetId);
+    },
+
+    /** 
+     * Click apply button on widget settings window and reload summary.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     */
+    applyWidgetSettingsAndReload: function(analyticsSummaryWidgetId) {
+        analyticsSummarySettings.clickApplyButton();
+        analyticsSummary.checkIfSummaryLoaded(analyticsSummaryWidgetId);
+    },
+
+    /**
+     *   Return name of analytics summary title.
+     * 
+     *   @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     *   @return {string} Summary title returned.
+     */
+    getTitle: function(analyticsSummaryWidgetId) {
+        return analyticsSummary.getSummaryTitle(analyticsSummaryWidgetId);
+    },
+
+    /** 
+     * Get widget layout label values from summary widget.
+     * 
+     * @param {int} analyticsSummaryWidgetId - the identifier of the widget.
+     * return {string[]} array of summary widget layout labels.
+     */
+    getAnalyticsSummaryLabels: function(analyticsSummaryWidgetId) {
+        return analyticsSummary.getAnalyticsSummaryLabels(analyticsSummaryWidgetId);
+    },
+
+    /** 
+     * Get all values from analytics summary widget.
+     * 
+     * @param {int} summaryWidgetId - the identifier of the widget.
+     * @return {string[]} array of summary values.
+     */
+    getAnalyticsSummaryValues: function(analyticsSummaryWidgetId) {
+        return analyticsSummary.getAnalyticsSummaryValues(analyticsSummaryWidgetId);
+    },
+
+    /** 
+     * Verify from analytics summary widget.
+     * 
+     * @param {int} summaryWidgetId - the identifier of the widget.
+     */
+    verifySummaryWidgetHasPositions: function(summaryWidgetId) {
+        analyticsSummary.verifyAnalyticsSummaryIsNotBlank(summaryWidgetId);
+    },
+
+  /** 
+     * Check that a best worst has a certain portfolio filter
+     * 
+     * @param {int} summaryWidgetId - the identifier of the widget.
+     * @param {string} selectedPort - portfolio you expected to be filtered on.
+     */
+    verifyPortfolioFilter: function(summaryWidgetId, selectedPort) {
+        var dropdown = element.all(By.id("multiSelectPortfolio_taglist")).last();
+        var port = dropdown.element(By.css("span[unselectable = 'on']"));
+        port.getText()
+        .then((text)=>{
+            console.log("The Portfolio filter is " + text);
+            expect(text).toBe(selectedPort);   
+        });  
+    },
+
+    /** 
+     * Check that summary widget settings are the correct configuration based on input settings
+     * 
+     * @param {object} widgetSettings - object of widget settings that should be configured against.
+     */
+    verifySummaryWidgetSettings: function(widgetSettings) {
+        analyticsSummarySettings.verifySummaryWidgetSettings(widgetSettings);
+    }
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="analyticsGrid.html">analyticsGrid</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.1</a> on Thu Jul 13 2017 14:43:51 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

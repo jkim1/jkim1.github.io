@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: bar/scripts/positionValScript.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: bar/scripts/positionValScript.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+const webfw = require("eze-e2e-webframework");
+var positionValPage = require("../pageObjects/positionValuationsPage");
+var controls = require('../pageObjects/Controls/reportControls');
+var logger = new webfw.log("Reports Script");
+var accountingUtils = require("../utils");
+var shell = require('./accountingShell');
+const integration = require("eze-integration-protractor-framework");
+
+/**
+ * APIs for interacting with Open Lots report
+ */
+class PositionValReport {
+    /**
+     * Run a Position Valuations accounting report based on Logical Time , State, and View Configuration parameters a user selects.
+     *
+     * Selects Open Lots report from the dropdown.
+     * @param {string} logicalTimeValue value for logical Time field.
+     * @param {string} stateValue state of a report.
+     * @param {string}  viewConfigurationValue  of a report.
+     */
+    static runPositionValReport(logicalTimeValue, stateValue, viewConfigurationValue) {
+        shell.navigateToReports();
+        controls.getReportPageStatus().then((pageStatus) => {
+            positionValPage.selectPositionValuationsReport(pageStatus);
+            return positionValPage.setLogicalTime(pageStatus, logicalTimeValue).then(() => {
+                console.log('set logical time')
+                positionValPage.verifyLogicalTime(pageStatus, logicalTimeValue);
+                return positionValPage.setState(pageStatus, stateValue).then(() => {
+                    positionValPage.verifyState(pageStatus, stateValue);
+                    return positionValPage.setViewConfiguration(pageStatus, viewConfigurationValue).then(() => {
+                        positionValPage.verifyViewConfiguration(pageStatus, viewConfigurationValue);
+                        console.log('report settings changed');
+                        return controls.clickApply(pageStatus).then(() => {
+                            logger.debug('Clicked  Apply button to run the report');
+                            console.log('Waiting for report to load');
+                            return webfw.utils.waitForElementNotPresent(controls.elements.reportContentBusyIndicator, 'Busy Indicator').then(() => {
+                                console.log('Report loaded');
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    /**
+     * Change Date for Business Date field. Use this function to change only business date.
+     *
+     * @param {dateFormat} dateValue is a date
+     *
+     */
+     static changeBusinessDate(dateValue) {
+         shell.navigateToReports();
+         controls.getReportPageStatus().then((pageStatus) => {
+           positionValPage.setBusinessDate(pageStatus, dateValue);
+           positionValPage.verifyBusinessDate(pageStatus, dateValue)
+           logger.debug('clicking on Apply button');
+           controls.clickApply(pageStatus);
+           webfw.utils.waitForElementNotPresent(controls.elements.reportContentBusyIndicator, 'Busy Indicator');
+         });
+     }
+
+    /**
+     * Change logical Time of a report.
+     * @param {string} logicalTimeValue value for logical Time field.
+     *
+     */
+     static changeLogicalTime(logicalTimeValue) {
+         shell.navigateToReports();
+         controls.getReportPageStatus().then((pageStatus) => {
+           positionValPage.setLogicalTime(pageStatus, logicalTimeValue);
+           positionValPage.verifyLogicalTime(pageStatus, logicalTimeValue);
+           logger.debug('clicking on Apply button');
+           controls.clickApply();
+           webfw.utils.waitForElementNotPresent(controls.elements.reportContentBusyIndicator, 'Busy Indicator');
+         });
+     }
+
+    /**
+     * Change State of a report.
+     * @param {string} stateValue state of a report.
+     *
+     */
+     static changeState(stateValue) {
+         shell.navigateToReports();
+         controls.getReportPageStatus().then((pageStatus) => {
+           positionValPage.setState(pageStatus, stateValue);
+           positionValPage.verifyState(pageStatus, stateValue);
+           logger.debug('clicking on Apply button');
+           controls.clickApply();
+           webfw.utils.waitForElementNotPresent(controls.elements.reportContentBusyIndicator, 'Busy Indicator');
+         });
+     }
+
+    /**
+     * Change View Configuration  of a report.
+     * @param {string}  viewConfigurationValue  of a report.
+     *
+     */
+     static changeViewConfiguration(viewConfigurationValue) {
+         shell.navigateToReports();
+         controls.getReportPageStatus().then((pageStatus) => {
+           positionValPage.setViewConfiguration(pageStatus, viewConfigurationValue);
+           positionValPage.verifyViewConfiguration(pageStatus, viewConfigurationValue);
+           logger.debug('clicking on Apply button');
+           controls.clickApply();
+           webfw.utils.waitForElementNotPresent(controls.elements.reportContentBusyIndicator, 'Busy Indicator');
+         });
+     }
+
+
+    /**
+     * verify the value of Market Data Value column. Please use '' in your spec to check the value. ex: verifymarketValueCell('0.00')
+     * @param {string}  cellValue  of MKTVal that you would like to varify.
+     */
+    static verifymarketValueCell(cellValue) {
+        controls.elements.marketValueCell.getText().then(function (value) {
+            expect(value).toBe(cellValue);
+            logger.debug('Get value is ' + value + ', which should be equal to ' + cellValue);
+        });
+    }
+}
+module.exports = PositionValReport;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="analyticsGrid.html">analyticsGrid</a></li><li><a href="NAVandPLReport.html">NAVandPLReport</a></li><li><a href="OpenLotsReport.html">OpenLotsReport</a></li><li><a href="PositionValReport.html">PositionValReport</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.1</a> on Thu Jul 13 2017 13:46:48 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
